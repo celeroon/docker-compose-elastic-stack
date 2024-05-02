@@ -56,3 +56,5 @@ https://mpolinowski.github.io/docs/DevOps/Elasticsearch/2022-02-06--elasticsearc
 https://discuss.elastic.co/t/custom-log4j2-propoerties-for-elasticsearch-in-docker/310321
 
 https://www.elastic.co/guide/en/beats/filebeat/current/setup-kibana-endpoint.html
+
+https://www.elastic.co/guide/en/elasticsearch/reference/current/update-node-certs-different.html
