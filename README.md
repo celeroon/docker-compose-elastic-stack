@@ -31,14 +31,9 @@ Filebeat and Metricbeat are installed solely for monitoring Elasticsearch nodes 
 
 After running the containers, you will find the `elasticsearch-ca.pem` certificate in the `certs/` directory. Use it to establish secure communications when adding Elastic Agents.
 
-When generating the installation script for Elastic Agent (from Kibana GUI), replace the hostname `fleet-server` with your host's IP or FQDN submitted to the `.env` file.
-
 In the `config` directory, you will find configuration files for Kibana, Metricbeat, Filebeat, and the Elasticsearch module for Filebeat.
 
 In the `custom-scripts` directory, you can find setup scripts for Elasticsearch, Kibana, Fleet, and certificate generation.
-
-> [!IMPORTANT]
-> Update the hosts file with the entries for es01 and fleet-server on your elastic-agent host (ES_SERVER_HOST and FLEET_SERVER_HOST does not work for now)
 
 # To-Do
 
