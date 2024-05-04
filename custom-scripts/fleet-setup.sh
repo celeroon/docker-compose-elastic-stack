@@ -10,13 +10,13 @@ echo "Creating a Package Policy"
 curl --cacert /certs/elasticsearch-ca.pem -s -u "elastic:${ELASTIC_PASSWORD}" \
     -XPOST -H "kbn-xsrf: kibana" -H "Content-type: application/json" \
     "https://kibana:5601/api/fleet/package_policies" \
-    -d '{"name":"Elastic-System-package","namespace":"default","policy_id":"elastic-policy", "package":{"name": "system", "version":"1.54.0"}}' > /dev/null
+    -d '{"name":"Elastic-System-package","namespace":"default","policy_id":"elastic-policy", "package":{"name": "system", "version":"1.55.2"}}' > /dev/null
 
 echo "Adding a Fleet Server host"
 curl --cacert /certs/elasticsearch-ca.pem -s -u "elastic:${ELASTIC_PASSWORD}" \
     -XPUT -H "kbn-xsrf: kibana" -H "Content-type: application/json" \
     "https://kibana:5601/api/fleet/settings" \
-    -d '{"fleet_server_hosts": ["https://fleet-server:8220"]}' > /dev/null
+    -d '{"fleet_server_hosts": ["https://'${FLEET_SERVER_HOST}':8220"]}' > /dev/null
 
 # CATing /certs/elasticsearch-ca.pem
 cert_content=$(cat /certs/elasticsearch-ca.pem)
@@ -38,6 +38,6 @@ curl --cacert /certs/elasticsearch-ca.pem -s -u "elastic:${ELASTIC_PASSWORD}" \
     -XPUT -H "kbn-xsrf: kibana" -H "Content-type: application/json" \
     "https://kibana:5601/api/fleet/outputs/fleet-default-output" \
     -d '{
-      "hosts": ["https://es01:9200"],
+      "hosts": ["https://'${ES_SERVER_HOST}':9200"],
       "config_yaml": "'"$new_variable"'"
     }' > /dev/null
