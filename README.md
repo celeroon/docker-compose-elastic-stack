@@ -15,14 +15,20 @@ Filebeat and Metricbeat are installed solely for monitoring Elasticsearch nodes 
     ./submit-es-fleet-addresses.sh
     ```
 
-2. To add external hosts as Elastic Agents, you need to specify the Fully Qualified Domain Name (FQDN) or IP address of your host where Docker is running to generate certificates (to include SAN entry in the certificate).
+2. To add external hosts as Elastic Agents, you need to specify the Fully Qualified Domain Name (FQDN) or IP address of your host where Docker is running to generate certificates (to include SAN entry in the certificate):
 
     ```bash
     chmod +x generate_kibana_encryptionkeys.sh
     ./generate_kibana_encryptionkeys.sh
     ```
 
-3. Build and run:
+3. Make all the scripts in the custom-scripts directory executable:
+
+    ```bash
+    chmod +x custom-scripts/*
+    ```
+
+4. Build and run:
 
     ```bash
     docker compose build
