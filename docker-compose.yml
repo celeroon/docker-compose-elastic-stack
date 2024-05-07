@@ -261,3 +261,18 @@ services:
       - CA_CERT=config/certs/elasticsearch-ca.pem
     command:
       -strict.perms=false
+
+  sigma-setup:
+    depends_on:
+      kibana:
+        condition: service_healthy
+    build:
+      context: .
+      dockerfile: images/sigma-rules/Dockerfile
+    container_name: sigma-setup
+    volumes:
+      - certs:/certs
+      - ./custom-scripts:/custom-scripts
+    environment:
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+    command: bash -c "/custom-scripts/sigma-setup.sh"
