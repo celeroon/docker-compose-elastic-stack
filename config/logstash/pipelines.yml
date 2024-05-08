@@ -1,0 +1,11 @@
+# This file is where you define your pipelines. You can define multiple.
+# For more information on multiple pipelines, see the documentation:
+#   https://www.elastic.co/guide/en/logstash/current/multiple-pipelines.html
+
+
+- pipeline.id: syslog-fortinet-fortigate-input5424-kv
+  path.config: "/usr/share/logstash/pipeline/syslog-fortinet-fortigate-input5424-kv.conf"
+- pipeline.id: syslog-fortinet-fortigate_2_ecsv2
+  path.config: "/usr/share/logstash/pipeline/syslog-fortinet-fortigate_2_ecsv2.conf"
+- pipeline.id: syslog-fortinet-common_ecs-output
+  path.config: "/usr/share/logstash/pipeline/syslog-fortinet-common_ecs-output.conf"

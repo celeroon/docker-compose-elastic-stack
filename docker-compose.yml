@@ -14,6 +14,8 @@ volumes:
     driver: local
   filebeatdata01:
     driver: local
+  logstashdata01:
+    driver: local
 
 networks:
   default:
@@ -276,3 +278,30 @@ services:
     environment:
       - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
     command: bash -c "/custom-scripts/sigma-setup.sh"
+
+  logstash:
+    depends_on:
+      es01:
+        condition: service_healthy
+      kibana:
+        condition: service_healthy
+    build:
+      context: .
+      dockerfile: images/logstash/Dockerfile
+      args:
+        - STACK_VERSION=${STACK_VERSION}
+    container_name: logstash
+    user: "1000"
+    volumes:
+      - certs:/usr/share/logstash/certs
+      - logstashdata01:/usr/share/logstash/data
+      - ./config/logstash/pipelines.yml:/usr/share/logstash/config/pipelines.yml
+      - ./config/logstash/syslog-fortinet-fortigate-input5424-kv.conf:/usr/share/logstash/pipeline/syslog-fortinet-fortigate-input5424-kv.conf # :ro
+      - ./config/logstash/syslog-fortinet-fortigate_2_ecsv2.conf:/usr/share/logstash/pipeline/syslog-fortinet-fortigate_2_ecsv2.conf
+      - ./config/logstash/syslog-fortinet-common_ecs-output.conf:/usr/share/logstash/pipeline/syslog-fortinet-common_ecs-output.conf
+    environment:
+      - ELASTIC_USER=elastic
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      - ELASTIC_HOSTS=https://es01:9200
+    ports:
+      - ${LOGSTASH_PORT}:5145/udp
