@@ -120,6 +120,13 @@ if [ ! -f config/certs/certs.zip ]; then
     instances_yml+="    ip:\n" \
     instances_yml+="      - 127.0.0.1\n" \
     instances_yml+="      - 127.0.1.1\n" \
+    instances_yml+="  - name: logstash\n" \
+    instances_yml+="    dns:\n" \
+    instances_yml+="      - logstash\n" \
+    instances_yml+="      - localhost\n" \
+    instances_yml+="    ip:\n" \
+    instances_yml+="      - 127.0.0.1\n" \
+    instances_yml+="      - 127.0.1.1\n" \
 
     # Write instances.yml content to file
     echo -e "$instances_yml" >config/certs/instances.yml

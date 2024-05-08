@@ -13,7 +13,6 @@ setup.kibana:
   host: ${KIBANA_HOSTS}
   ssl.enabled: true
   ssl.certificate_authorities: ["${CA_CERT}"]
-  ssl.certificate: ${CA_CERT}
   ssl.certificate: ${KIBANA_SSL_CERT}
   ssl.key: ${KIBANA_SSL_KEY}
 

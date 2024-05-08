@@ -41,10 +41,9 @@ In the `config` directory, you will find configuration files for Kibana, Metricb
 
 In the `custom-scripts` directory, you can find setup scripts for Elasticsearch, Kibana, Fleet, and certificate generation.
 
-# To-Do
+## Acknowledgments
 
-- Integrate Logstash with pre-built [FortiDragon]((https://github.com/enotspe/fortinet-2-elasticsearch/blob/master/README.md)) pipelines for FortiGate.
-- Test API keys instead of using passwords in Beats configuration.
+This project includes FortiGate pipeline configurations adapted from the [FortiDragon](https://github.com/enotspe/fortinet-2-elasticsearch/tree/master) project, which is licensed under the Apache License 2.0.
 
 # Links
 
