@@ -43,7 +43,7 @@ In the `custom-scripts` directory, you can find setup scripts for Elasticsearch,
 
 ## Acknowledgments
 
-This project includes FortiGate pipeline configurations adapted from the [FortiDragon](https://github.com/enotspe/fortinet-2-elasticsearch/tree/master) project, which is licensed under the Apache License 2.0.
+This project includes FortiGate pipeline configurations (also add_event_ingested) and dashboards for Kibana were adapted from the [FortiDragon](https://github.com/enotspe/fortinet-2-elasticsearch/tree/master) project, which is licensed under the Apache License 2.0.
 
 # Links
 
@@ -58,3 +58,15 @@ https://discuss.elastic.co/t/custom-log4j2-propoerties-for-elasticsearch-in-dock
 https://www.elastic.co/guide/en/beats/filebeat/current/setup-kibana-endpoint.html
 
 https://www.elastic.co/guide/en/elasticsearch/reference/current/update-node-certs-different.html
+
+Also can be useful:
+
+https://quoeamaster.medium.com/deploying-elasticsearch-and-kibana-with-docker-86a4ac78d851
+
+https://miroslavpopovic.com/posts/2018/07/elasticsearch-with-aspnet-core-and-docker
+
+https://apollin.com/elasticsearch-kibana-docker-custom-ports/
+
+https://xyzcoder.github.io/2020/07/22/how-to-deploy-an-elastic-search-cluster-consisting-of-multiple-hosts-using-es-docker-image.html
+
+https://medium.com/@karthiksdevopsengineer/setting-up-elasticsearch-and-kibana-single-node-cluster-with-docker-d785f591a760

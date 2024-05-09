@@ -279,29 +279,39 @@ services:
       - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
     command: bash -c "/custom-scripts/sigma-setup.sh"
 
-  logstash:
+  logstash01:
     depends_on:
       es01:
         condition: service_healthy
       kibana:
         condition: service_healthy
+    # image: docker.elastic.co/logstash/logstash:${STACK_VERSION}
     build:
       context: .
       dockerfile: images/logstash/Dockerfile
       args:
         - STACK_VERSION=${STACK_VERSION}
-    container_name: logstash
-    user: "1000"
+    container_name: logstash01
+    user: "0"
     volumes:
-      - certs:/usr/share/logstash/certs
+      - certs:/usr/share/logstash/config/certs
       - logstashdata01:/usr/share/logstash/data
+      - ./config/logstash/add_event_ingested.json:/usr/share/logstash/config/add_event_ingested.json
+      - ./config/logstash/fortigate-ELK-871.ndjson:/usr/share/logstash/config/fortigate-ELK-871.ndjson
       - ./config/logstash/pipelines.yml:/usr/share/logstash/config/pipelines.yml
       - ./config/logstash/syslog-fortinet-fortigate-input5424-kv.conf:/usr/share/logstash/pipeline/syslog-fortinet-fortigate-input5424-kv.conf # :ro
       - ./config/logstash/syslog-fortinet-fortigate_2_ecsv2.conf:/usr/share/logstash/pipeline/syslog-fortinet-fortigate_2_ecsv2.conf
       - ./config/logstash/syslog-fortinet-common_ecs-output.conf:/usr/share/logstash/pipeline/syslog-fortinet-common_ecs-output.conf
+      - ./custom-scripts:/custom-scripts
+      - ./config/logstash/template-components:/usr/share/template-components # do not change
     environment:
       - ELASTIC_USER=elastic
       - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
       - ELASTIC_HOSTS=https://es01:9200
     ports:
       - ${LOGSTASH_PORT}:5145/udp
+    command: >
+      bash -c '
+        /custom-scripts/template-components-setup.sh && /usr/share/logstash/bin/logstash
+      '
+    

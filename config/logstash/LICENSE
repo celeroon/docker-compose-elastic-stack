@@ -1,6 +1,6 @@
 # Apache License 2.0
 
-The FortiGate pipeline configurations located in this directory were adapted from the FortiDragon project, which is licensed under the Apache License 2.0.
+The FortiGate pipeline configurations (also add_event_ingested) and Kibana dashboards located in this directory were adapted from the FortiDragon project, which is licensed under the Apache License 2.0.
 
 ## Source
 
