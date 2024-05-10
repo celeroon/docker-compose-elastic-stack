@@ -43,7 +43,7 @@ In the `custom-scripts` directory, you can find setup scripts for Elasticsearch,
 
 ## Acknowledgments
 
-This project includes FortiGate pipeline configurations (also add_event_ingested) and dashboards for Kibana were adapted from the [FortiDragon](https://github.com/enotspe/fortinet-2-elasticsearch/tree/master) project, which is licensed under the Apache License 2.0.
+This project includes FortiGate pipeline configurations, ILM, dashboards, index and component templates were adapted from the [FortiDragon](https://github.com/enotspe/fortinet-2-elasticsearch/tree/master) project, which is licensed under the Apache License 2.0.
 
 # Links
 

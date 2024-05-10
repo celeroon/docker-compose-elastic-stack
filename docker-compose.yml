@@ -304,6 +304,8 @@ services:
       - ./config/logstash/syslog-fortinet-common_ecs-output.conf:/usr/share/logstash/pipeline/syslog-fortinet-common_ecs-output.conf
       - ./custom-scripts:/custom-scripts
       - ./config/logstash/template-components:/usr/share/template-components # do not change
+      - ./config/logstash/ilm:/usr/share/ilm # do not change
+      - ./config/logstash/index-templates:/usr/share/index-templates # do not change
     environment:
       - ELASTIC_USER=elastic
       - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
