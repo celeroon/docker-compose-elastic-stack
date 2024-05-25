@@ -15,19 +15,33 @@ if [ x${FLEET_SERVER_HOST} == x ]; then
     exit 1
 fi
 
-if [ ! -d config/certs ]; then
+# Path to the flag directory
+FLAG_DIR="/usr/share/elasticsearch/flags"
+
+# Ensure the flag directory exists
+mkdir -p "$FLAG_DIR"
+
+# Flag files for each operation
+FLAG_FILE_CERTS_DIR="$FLAG_DIR/certs_dir_created"
+FLAG_FILE_CA_CERT="$FLAG_DIR/ca_cert_created"
+FLAG_FILE_TRANSPORT_CERT="$FLAG_DIR/transport_cert_created"
+
+if [ ! -f "$FLAG_FILE_CERTS_DIR" ]; then
     echo "Creating config/certs directory"
     mkdir -p config/certs
+    touch "$FLAG_FILE_CERTS_DIR"
 fi
 
-if [ ! -f config/certs/elastic-stack-ca.p12 ]; then
+if [ ! -f "$FLAG_FILE_CA_CERT" ]; then
     echo "Creating CA (elastic-stack-ca.p12)"
     bin/elasticsearch-certutil ca -out config/certs/elastic-stack-ca.p12 --pass ${CERT_PASS} -s
+    touch "$FLAG_FILE_CA_CERT"
 fi
 
-if [ ! -f config/certs/elastic-certificates.p12 ]; then
+if [ ! -f "$FLAG_FILE_TRANSPORT_CERT" ]; then
     echo "Creating certificate for transport layer (elastic-certificates.p12)"
     bin/elasticsearch-certutil cert --ca config/certs/elastic-stack-ca.p12 -s -out config/certs/elastic-certificates.p12 --ca-pass ${CERT_PASS} --pass ${CERT_PASS}
+    touch "$FLAG_FILE_TRANSPORT_CERT"
 fi
 
 # Function to check if the input is an IP address
@@ -83,7 +97,10 @@ else
     exit 1
 fi
 
-if [ ! -f config/certs/certs.zip ]; then
+# Flag file for certificates creation
+FLAG_FILE_CERTS="$FLAG_DIR/certs_created"
+
+if [ ! -f "$FLAG_FILE_CERTS" ]; then
     echo "Creating certificates for each cluster node"
 
     # Generate instances.yml content
@@ -137,18 +154,35 @@ if [ ! -f config/certs/certs.zip ]; then
     openssl pkcs12 -in config/certs/kibana/kibana.p12 -clcerts -nokeys -out config/certs/kibana/kibana.crt -passin pass:${CERT_PASS}
     openssl pkcs12 -in config/certs/fleet-server/fleet-server.p12 -nocerts -out config/certs/fleet-server/fleet-server.key -nodes -passin pass:${CERT_PASS}
     openssl pkcs12 -in config/certs/fleet-server/fleet-server.p12 -clcerts -nokeys -out config/certs/fleet-server/fleet-server.crt -passin pass:${CERT_PASS}
+    touch "$FLAG_FILE_CERTS"
 fi
 
-if [ ! -f "config/certs/elasticsearch-ca.pem" ]; then
-    echo "Generating elasticsearch-ca.pem"
-    openssl pkcs12 -in "config/certs/elastic-stack-ca.p12" -clcerts -nokeys -passin pass:${CERT_PASS} \
-    | awk '/-----BEGIN CERTIFICATE-----/,/-----END CERTIFICATE-----/' > "config/certs/elasticsearch-ca.pem"
+# Flag file
+FLAG_FILE_CA_PEM="$FLAG_DIR/ca_pem_created"
+
+if [ ! -f "$FLAG_FILE_CA_PEM" ]; then
+    if [ ! -f "config/certs/elasticsearch-ca.pem" ]; then
+        echo "Generating elasticsearch-ca.pem"
+        openssl pkcs12 -in "config/certs/elastic-stack-ca.p12" -clcerts -nokeys -passin pass:${CERT_PASS} \
+        | awk '/-----BEGIN CERTIFICATE-----/,/-----END CERTIFICATE-----/' > "config/certs/elasticsearch-ca.pem"
+    fi
+    # Create the flag file to indicate that elasticsearch-ca.pem has been created
+    touch "$FLAG_FILE_CA_PEM"
 fi
 
-echo "Setting file permissions"
-chown -R root:root config/certs
-find . -type d -exec chmod 750 \{\} \;
-find . -type f -exec chmod 640 \{\} \;
+# Flag file
+FLAG_FILE_PERMISSIONS="$FLAG_DIR/permissions_set"
+
+if [ ! -f "$FLAG_FILE_PERMISSIONS" ]; then
+    echo "Setting file permissions"
+    chown -R root:root config/certs
+    find . -type d -exec chmod 750 \{\} \;
+    find . -type f -exec chmod 640 \{\} \;
+
+    # Create the flag file to indicate that permissions have been set
+    touch "$FLAG_FILE_PERMISSIONS"
+fi
+
 echo "Waiting for Elasticsearch availability"
 until curl -s --cacert config/certs/elasticsearch-ca.pem https://es01:9200 | grep -q "missing authentication credentials"; do sleep 30; done
 echo "All done!"

@@ -84,7 +84,6 @@ services:
       - ES_LOG_STYLE=file
     command: >
       bash -c '
-        cp /usr/share/elasticsearch/config/certs/elasticsearch-ca.pem /certs/
         /usr/share/custom-scripts/es01-setup.sh &&
         /usr/local/bin/docker-entrypoint.sh
       '
