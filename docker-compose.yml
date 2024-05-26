@@ -8,6 +8,8 @@ volumes:
     driver: local
   kibanadata:
     driver: local
+  kibana-config:
+    driver: local
   fleetserverdata:
     driver: local
   metricbeatdata01:
@@ -84,7 +86,6 @@ services:
       - ES_LOG_STYLE=file
     command: >
       bash -c '
-        cp /usr/share/elasticsearch/config/certs/elasticsearch-ca.pem /certs/
         /usr/share/custom-scripts/es01-setup.sh &&
         /usr/local/bin/docker-entrypoint.sh
       '
@@ -114,6 +115,7 @@ services:
     volumes:
       - certs:/usr/share/kibana/config/certs
       - kibanadata:/usr/share/kibana/data
+      - kibana-config:/usr/share/kibana/config
       - ./config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
       - ./custom-scripts:/usr/share/custom-scripts
     ports:
