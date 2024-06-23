@@ -28,6 +28,18 @@ if [ ! -f "$FLAG_FILE_SIGMA_CONVERTED" ]; then
   touch "$FLAG_FILE_SIGMA_CONVERTED"
 fi
 
+# Iterate over each .ndjson file in the current directory
+for file in *.ndjson; do
+    # Check if the file exists
+    if [[ -f "$file" ]]; then
+        # Use sed to find and replace "enabled": true with "enabled": false
+        sed -i 's/"enabled": true/"enabled": false/g' "$file"
+        echo "Processed $file"
+    fi
+done
+
+echo "All .ndjson rules have been disabled."
+
 # Upload NDJSON files to Elasticsearch if not already done
 if [ ! -f "$FLAG_FILE_RULES_UPLOADED" ]; then
   for file in *.ndjson

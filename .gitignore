@@ -1,1 +1,2 @@
 certs/elasticsearch-ca.pem
+.env
