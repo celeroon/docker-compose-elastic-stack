@@ -84,9 +84,9 @@ fi
 echo "Appending variables to .env file..."
 
 # Append ES_SERVER_HOST to .env
-echo "ES_SERVER_HOST=$es_server_host" >> .env
+echo -e "\nES_SERVER_HOST=$es_server_host" >> .env
 
 # Append FLEET_SERVER_HOST to .env
-echo "FLEET_SERVER_HOST=$fleet_server_host" >> .env
+echo -e "\nFLEET_SERVER_HOST=$fleet_server_host" >> .env
 
 echo "Variables appended to .env file successfully."
