@@ -54,6 +54,7 @@ services:
         - STACK_VERSION=${STACK_VERSION}
         - CERT_PASS=${CERT_PASS}
     container_name: es01
+    restart: always
     labels:
       co.elastic.logs/module: elasticsearch
     user: "1000"
@@ -110,6 +111,7 @@ services:
         condition: service_healthy
     image: docker.elastic.co/kibana/kibana:${STACK_VERSION}
     container_name: kibana
+    restart: always
     labels:
       co.elastic.logs/module: kibana
     volumes:
@@ -152,6 +154,7 @@ services:
         condition: service_healthy
     image: docker.elastic.co/beats/elastic-agent:${STACK_VERSION}
     container_name: fleet-server
+    restart: always
     volumes:
       - certs:/certs
       - fleetserverdata:/usr/share/elastic-agent
@@ -217,6 +220,7 @@ services:
         condition: service_healthy
     image: docker.elastic.co/beats/metricbeat:${STACK_VERSION}
     container_name: metricbeat01
+    restart: always
     user: root
     volumes:
       - certs:/usr/share/metricbeat/config/certs
@@ -245,6 +249,7 @@ services:
         condition: service_healthy
     image: docker.elastic.co/beats/filebeat:${STACK_VERSION}
     container_name: filebeat01
+    restart: always
     user: root
     volumes:
       - certs:/usr/share/filebeat/config/certs
@@ -294,6 +299,7 @@ services:
       args:
         - STACK_VERSION=${STACK_VERSION}
     container_name: logstash01
+    restart: always
     user: "0"
     volumes:
       - certs:/usr/share/logstash/config/certs
