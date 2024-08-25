@@ -2,7 +2,7 @@
 
 I started with the Elasticsearch blog, [part 1](https://www.elastic.co/blog/getting-started-with-the-elastic-stack-and-docker-compose) and [part 2](https://www.elastic.co/blog/getting-started-with-the-elastic-stack-and-docker-compose-part-2). While those tutorials were helpful, I found that the generated certificates lacked passwords, and no keystores were configured. Therefore, I decided to build from scratch, implementing a full SSL chain configuration for secure communication between all components.
 
-I would like to express my gratitude to [Evermight Tech](https://www.youtube.com/@evermighttech) and [Ali Younes](https://www.youtube.com/@AliYounesGo4IT) for their explanations and examples of configuring and securing Elasticsearch and its components.
+I would like to express my gratitude to [Evermight Tech](https://www.youtube.com/@evermightsystems) and [Ali Younes](https://www.youtube.com/@AliYounesGo4IT) for their explanations and examples of configuring and securing Elasticsearch and its components.
 
 Filebeat and Metricbeat are installed solely for monitoring Elasticsearch nodes and collecting logs.
 
