@@ -11,15 +11,15 @@ Filebeat and Metricbeat are installed solely for monitoring Elasticsearch nodes 
 1. Generate and update encryption keys for Kibana in the `.env` file:
 
     ```bash
-    chmod +x submit-es-fleet-addresses.sh
-    ./submit-es-fleet-addresses.sh
+    chmod +x generate_kibana_encryptionkeys.sh
+    ./generate_kibana_encryptionkeys.sh
     ```
 
 2. To add external hosts as Elastic Agents, you need to specify the Fully Qualified Domain Name (FQDN) or IP address of your host where Docker is running to generate certificates (to include SAN entry in the certificate):
 
     ```bash
-    chmod +x generate_kibana_encryptionkeys.sh
-    ./generate_kibana_encryptionkeys.sh
+    chmod +x submit-es-fleet-addresses.sh
+    ./submit-es-fleet-addresses.sh
     ```
 
 3. Make all the scripts in the custom-scripts directory executable:
