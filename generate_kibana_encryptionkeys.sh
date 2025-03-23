@@ -3,7 +3,7 @@
 # Function to generate a random string of specified length
 generate_random_string() {
     local length=$1
-    head /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w "$length" | head -n 1
+    head /dev/urandom | tr -dc 'a-f0-9' | fold -w "$length" | head -n 1
 }
 
 # Function to check if a variable exists in the .env file

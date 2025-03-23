@@ -22,17 +22,39 @@ fi
 
 # Convert Sigma rules to the NDJSON format for Elasticsearch if not already done
 if [ ! -f "$FLAG_FILE_SIGMA_CONVERTED" ]; then
-  sigma convert --target lucene --pipeline ecs_windows --format siem_rule_ndjson sigma/rules/windows -o rules-windows.ndjson
-  sigma convert --target lucene --pipeline ecs_windows --format siem_rule_ndjson sigma/rules-emerging-threats -o rules-emerging-threats.ndjson
-  sigma convert --target lucene --pipeline ecs_windows --format siem_rule_ndjson sigma/rules-threat-hunting/windows -o rules-threat-hunting-windows.ndjson
+  echo "Converting Sigma rules to NDJSON..."
+
+  # Array of source directories and their corresponding output files
+  declare -A RULE_SETS=(
+    ["sigma/rules/windows"]="rules-windows.ndjson"
+    ["sigma/rules-emerging-threats"]="rules-emerging-threats.ndjson"
+    ["sigma/rules-threat-hunting/windows"]="rules-threat-hunting-windows.ndjson"
+  )
+
+  for DIR in "${!RULE_SETS[@]}"; do
+    OUTPUT_FILE="${RULE_SETS[$DIR]}"
+    > "$OUTPUT_FILE"  # Clear the output file before writing
+
+    # Process each .yml rule in the directory
+    find "$DIR" -type f -name "*.yml" | while read -r rule; do
+      echo "Processing $rule..."
+      OUTPUT=$(sigma convert --target lucene --pipeline ecs_windows --format siem_rule_ndjson "$rule" 2>&1)
+
+      if echo "$OUTPUT" | grep -q "Error"; then
+        echo "Error: Conversion failed for rule $rule"
+        continue
+      fi
+
+      echo "$OUTPUT" >> "$OUTPUT_FILE"
+    done
+  done
+
   touch "$FLAG_FILE_SIGMA_CONVERTED"
 fi
 
 # Iterate over each .ndjson file in the current directory
 for file in *.ndjson; do
-    # Check if the file exists
     if [[ -f "$file" ]]; then
-        # Use sed to find and replace "enabled": true with "enabled": false
         sed -i 's/"enabled": true/"enabled": false/g' "$file"
         echo "Processed $file"
     fi

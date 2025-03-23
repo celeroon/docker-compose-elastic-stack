@@ -47,6 +47,15 @@ In the `config` directory, you will find configuration files for Kibana, Metricb
 
 In the `custom-scripts` directory, you can find setup scripts for Elasticsearch, Kibana, Fleet, and certificate generation.
 
+Note: Sigma rule conversion may take some time. The script has been modified to process each .yml rule file individually instead of converting by directory. This approach ensures that the process doesn't stop entirely when an error is encountered in one of the rules Some Sigma rules may contain syntax errors, which will be visible in the logs, but the script will skip those and continue:
+
+```
+sigma-setup         | Processing sigma/rules/windows/process_creation/proc_creation_win_lolbin_openwith.yml...
+sigma-setup         | Processing sigma/rules/windows/process_creation/proc_creation_win_wermgr_susp_exec_location.yml...
+sigma-setup         | Error: Conversion failed for rule sigma/rules/windows/process_creation/proc_creation_win_wermgr_susp_exec_location.yml
+sigma-setup         | Processing sigma/rules/windows/process_creation/proc_creation_win_powershell_susp_ps_appdata.yml...
+```
+
 ## Acknowledgments
 
 This project includes FortiGate pipeline configurations, ILM, dashboards, index and component templates were adapted from the [FortiDragon](https://github.com/enotspe/fortinet-2-elasticsearch/tree/master) project, which is licensed under the Apache License 2.0.
