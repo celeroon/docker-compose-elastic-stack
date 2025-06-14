@@ -167,6 +167,7 @@ services:
     ports:
       - ${FLEET_PORT}:8220
     environment:
+      # - ELASTIC_AGENT_FLAVOR=servers # Starting from Elastic version 9.0
       - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
       - SSL_CERTIFICATE_AUTHORITIES=/certs/elasticsearch-ca.pem
       - CERTIFICATE_AUTHORITIES=/certs/elasticsearch-ca.pem
@@ -239,7 +240,7 @@ services:
       - CA_CERT=config/certs/elasticsearch-ca.pem
       - ES_CA=config/certs/elasticsearch-ca.pem
     command:
-      -strict.perms=false
+      --strict.perms=false
 
   filebeat01:
     depends_on:
@@ -269,7 +270,7 @@ services:
       - LOGSTASH_HOSTS=http://logstash01:9600
       - CA_CERT=config/certs/elasticsearch-ca.pem
     command:
-      -strict.perms=false
+      --strict.perms=false
 
   sigma-setup:
     depends_on:

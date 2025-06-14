@@ -41,6 +41,10 @@ Filebeat and Metricbeat are installed solely for monitoring Elasticsearch nodes 
     docker compose up -d
     ```
 
+5. Setup EDR integration
+
+    Remember to enable Malware protections in the EDR integration of windows-policy with Protection level of Detect
+
 After running the containers, you will find the `elasticsearch-ca.pem` certificate in the `certs/` directory. Use it to establish secure communications when adding Elastic Agents.
 
 In the `config` directory, you will find configuration files for Kibana, Metricbeat, Filebeat, and the Elasticsearch module for Filebeat.
