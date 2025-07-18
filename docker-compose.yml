@@ -1,4 +1,3 @@
-version: "3.8"
 volumes:
   certs:
     driver: local
@@ -297,7 +296,6 @@ services:
         condition: service_healthy
       kibana:
         condition: service_healthy
-    # image: docker.elastic.co/logstash/logstash:${STACK_VERSION}
     build:
       context: .
       dockerfile: images/logstash/Dockerfile
@@ -305,9 +303,8 @@ services:
         - STACK_VERSION=${STACK_VERSION}
     container_name: logstash01
     restart: always
-    user: "0"
     volumes:
-      - certs:/usr/share/logstash/config/certs
+      - ./certs:/usr/share/logstash/config/certs
       - logstashdata01:/usr/share/logstash/data
       - ./config/logstash/add_event_ingested.json:/usr/share/logstash/config/add_event_ingested.json
       - ./config/logstash/fortigate-ELK-871.ndjson:/usr/share/logstash/config/fortigate-ELK-871.ndjson
