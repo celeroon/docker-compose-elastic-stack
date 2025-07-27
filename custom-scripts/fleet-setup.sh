@@ -63,9 +63,9 @@ fi
 if [ ! -f "$FLAG_FILE_FLEET_SERVER_HOST" ]; then
     echo "Adding a Fleet Server host"
     curl --cacert /certs/elasticsearch-ca.pem -s -u "elastic:${ELASTIC_PASSWORD}" \
-        -XPUT -H "kbn-xsrf: kibana" -H "Content-type: application/json" \
-        "https://kibana:5601/api/fleet/settings" \
-        -d '{"fleet_server_hosts": ["https://'${FLEET_SERVER_HOST}':8220"]}' > /dev/null
+        -X POST -H "kbn-xsrf: kibana" -H "Content-type: application/json" \
+        "https://kibana:5601/api/fleet/fleet_server_hosts" \
+        -d '{"name": "fleet","host_urls": ["https://'"${FLEET_SERVER_HOST}"':8220"], "is_default": true}' > /dev/null
     touch "$FLAG_FILE_FLEET_SERVER_HOST"
 fi
 
