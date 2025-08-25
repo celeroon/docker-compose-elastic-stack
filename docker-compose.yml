@@ -169,6 +169,8 @@ services:
       - ./custom-scripts:/usr/share/custom-scripts
     ports:
       - ${FLEET_PORT}:8220
+      - "9010-9020:9010-9020/tcp"
+      - "9010-9020:9010-9020/udp"
     environment:
       - ELASTIC_AGENT_FLAVOR=servers
       - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
@@ -327,3 +329,4 @@ services:
         /custom-scripts/template-components-setup.sh && /usr/share/logstash/bin/logstash
       '
     
+
