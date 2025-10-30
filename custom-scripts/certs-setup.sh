@@ -177,7 +177,7 @@ if [ ! -f "$FLAG_FILE_PERMISSIONS" ]; then
     echo "Setting file permissions"
     chown -R root:root config/certs
     find . -type d -exec chmod 750 \{\} \;
-    find . -type f -exec chmod 640 \{\} \;
+    find . -type f -exec chmod 644 \{\} \;
 
     # Create the flag file to indicate that permissions have been set
     touch "$FLAG_FILE_PERMISSIONS"
