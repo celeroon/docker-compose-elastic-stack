@@ -41,7 +41,8 @@ services:
     user: "0"
     command: bash -c '/usr/share/custom-scripts/certs-setup.sh'
     healthcheck:
-      test: [ "CMD-SHELL", "[ -f config/certs/es01/es01.p12 ]" ]
+      # healthy only after certs-setup.sh has generated all certs AND set their permissions
+      test: [ "CMD-SHELL", "[ -f /usr/share/elasticsearch/flags/permissions_set ]" ]
       interval: 1s
       timeout: 5s
       retries: 120
